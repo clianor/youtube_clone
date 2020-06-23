@@ -3,10 +3,15 @@ const { applyMiddleware } = require("./utils");
 const middleware = require("./middleware");
 const config = require("./config/key");
 const mongoose = require("mongoose");
-const { User } = require("./models/User");
 
 const app = express();
-const port = 5000;
+let port = 5000;
+
+if (process.env.NODE_ENV === "production") {
+  port = 3000;
+} else {
+  port = 5000;
+}
 
 mongoose
   .connect(config.mongoURI, {
