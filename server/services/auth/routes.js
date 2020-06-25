@@ -9,7 +9,7 @@ router.post("/login", (req, res, next) => {
     if (!user) {
       return res.json({
         loginSuccess: false,
-        message: "존재하는 유저가 없습니다.",
+        errMsg: "존재하는 유저가 없습니다.",
       });
     }
 
@@ -18,7 +18,7 @@ router.post("/login", (req, res, next) => {
       if (!isMatch)
         return res.json({
           loginSuccess: false,
-          message: "비밀번호가 틀렸습니다.",
+          errMsg: "비밀번호가 틀렸습니다.",
         });
 
       // 토큰 생성
