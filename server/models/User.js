@@ -85,16 +85,20 @@ userSchema.methods.generateToken = function (cb) {
   });
 };
 
-userSchema.statics.findByToken = function (token, cb) {
-  var user = this;
+userSchema.statics.findByToken = async function (token, cb) {
+  try {
+    const user = await User.findOne({ token: token });
 
-  // 토큰을 decode 함
-  jwt.verify(token, user.salt, function (err, decoded) {
-    userfindOne({ _id: decoded, token: token }, function (err, user) {
-      if (err) return cb(err);
-      cb(null, user);
+    // 토큰을 decode 함
+    jwt.verify(token, user.salt, function (err, decoded) {
+      User.findOne({ _id: decoded.id, token: token }, function (err, user) {
+        if (err) return cb(err);
+        cb(null, user);
+      });
     });
-  });
+  } catch (err) {
+    console.error(err);
+  }
 };
 
 const User = mongoose.model("User", userSchema);
