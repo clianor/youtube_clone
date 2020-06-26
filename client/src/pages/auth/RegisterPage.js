@@ -40,7 +40,7 @@ function RegisterPage(props) {
     };
 
     dispatch(registerUser(body)).then((res) => {
-      if (res.payload.registerSuccess) {
+      if (res.payload.success) {
         props.history.push("/login");
       } else {
         alert("Failed to sign up");
