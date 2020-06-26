@@ -1,5 +1,5 @@
 import axios from "axios";
-import { AUTH_LOGIN } from "./types";
+import { AUTH_LOGIN, AUTH_REGISTER } from "./types";
 
 export function loginUser(dataToSubmit) {
   const req = axios
@@ -8,6 +8,18 @@ export function loginUser(dataToSubmit) {
 
   return {
     type: AUTH_LOGIN,
+    payload: req,
+  };
+}
+
+export function registerUser(dataToSubmit) {
+  const req = axios
+    .post("/api/auth/register", dataToSubmit)
+    .then((res) => res.data);
+  console.log(req);
+
+  return {
+    type: AUTH_REGISTER,
     payload: req,
   };
 }

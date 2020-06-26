@@ -5,7 +5,7 @@ exports.loginController = (req, res) => {
   User.findOne({ email: req.body.email }, (err, user) => {
     if (!user) {
       return res.json({
-        loginSuccess: false,
+        success: false,
         errMsg: "존재하는 유저가 없습니다.",
       });
     }
@@ -14,7 +14,7 @@ exports.loginController = (req, res) => {
     user.comparePassword(req.body.password, (err, isMatch) => {
       if (!isMatch)
         return res.json({
-          loginSuccess: false,
+          success: false,
           errMsg: "비밀번호가 틀렸습니다.",
         });
 
@@ -25,7 +25,7 @@ exports.loginController = (req, res) => {
         res
           .cookie("x_auth", user.token)
           .status(200)
-          .json({ loginSuccess: true, userId: user._id });
+          .json({ success: true, userId: user._id });
       });
     });
   });
