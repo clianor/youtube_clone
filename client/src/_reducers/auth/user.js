@@ -1,10 +1,15 @@
-import { AUTH_LOGIN, AUTH_REGISTER } from "../../_actions/auth/types";
+import {
+  AUTH_LOGIN,
+  AUTH_REGISTER,
+  AUTH_INFO,
+} from "../../_actions/auth/types";
 
 const initState = {
+  isAuth: false,
+  isAdmin: false,
   loginSuccess: false,
   registerSuccess: false,
   userId: "",
-  errMsg: "",
 };
 
 export default function (state = initState, action) {
@@ -13,13 +18,19 @@ export default function (state = initState, action) {
       return {
         ...state,
         loginSuccess: action.payload.success,
-        errMsg: action.payload.errMsg,
         userId: action.payload.userId,
       };
     case AUTH_REGISTER:
       return {
         ...state,
         registerSuccess: action.payload.success,
+      };
+    case AUTH_INFO:
+      return {
+        ...state,
+        isAuth: action.payload.isAuth || false,
+        isAdmin: action.payload.isAdmin || false,
+        userId: action.payload._id || "",
       };
     default:
       return state;
