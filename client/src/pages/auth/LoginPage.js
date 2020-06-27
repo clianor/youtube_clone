@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { Alert } from "antd";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { loginUser } from "../../_actions/auth/user";
+import { withRouter } from "react-router-dom";
 
 function LoginPage(props) {
   const dispatch = useDispatch();
-  const { loginSuccess, errMsg } = useSelector((state) => state.user);
 
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
@@ -61,12 +60,6 @@ function LoginPage(props) {
           value={Password}
           onChange={onPasswordHandler}
         />
-        {!loginSuccess && !!errMsg ? (
-          <>
-            <br />
-            <Alert message={errMsg} type="error" showIcon banner />
-          </>
-        ) : null}
         <br />
         <button>Login</button>
       </form>
@@ -74,4 +67,4 @@ function LoginPage(props) {
   );
 }
 
-export default LoginPage;
+export default withRouter(LoginPage);

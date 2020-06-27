@@ -1,10 +1,11 @@
 import axios from "axios";
-import { AUTH_LOGIN, AUTH_REGISTER } from "./types";
+import { AUTH_LOGIN, AUTH_REGISTER, AUTH_INFO } from "./types";
 
 export function loginUser(dataToSubmit) {
   const req = axios
     .post("/api/auth/login", dataToSubmit)
-    .then((res) => res.data);
+    .then((res) => res.data)
+    .catch((err) => console.err(err));
 
   return {
     type: AUTH_LOGIN,
@@ -15,11 +16,23 @@ export function loginUser(dataToSubmit) {
 export function registerUser(dataToSubmit) {
   const req = axios
     .post("/api/auth/register", dataToSubmit)
-    .then((res) => res.data);
-  console.log(req);
+    .then((res) => res.data)
+    .catch((err) => console.err(err));
 
   return {
     type: AUTH_REGISTER,
+    payload: req,
+  };
+}
+
+export function getAuth() {
+  const req = axios
+    .get("/api/auth/info")
+    .then((res) => res.data)
+    .catch((err) => console.err(err));
+
+  return {
+    type: AUTH_INFO,
     payload: req,
   };
 }

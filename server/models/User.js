@@ -87,17 +87,27 @@ userSchema.methods.generateToken = function (cb) {
 
 userSchema.statics.findByToken = async function (token, cb) {
   try {
+    // 토큰이 없을때
+    if (!token) {
+      return cb(new Error("Token is required."));
+    }
+
     const user = await User.findOne({ token: token });
+
+    // 토큰이 없을때
+    if (!user) {
+      return cb(new Error("User not found"));
+    }
 
     // 토큰을 decode 함
     jwt.verify(token, user.salt, function (err, decoded) {
       User.findOne({ _id: decoded.id, token: token }, function (err, user) {
         if (err) return cb(err);
-        cb(null, user);
+        return cb(null, user);
       });
     });
   } catch (err) {
-    console.error(err);
+    return cb(err);
   }
 };
 

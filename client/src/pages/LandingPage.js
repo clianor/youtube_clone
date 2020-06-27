@@ -1,15 +1,19 @@
 import React from "react";
 import axios from "axios";
+import { withRouter } from "react-router-dom";
 
 function LandingPage(props) {
   const onClickHandler = () => {
-    axios.get(`/api/auth/logout`).then((res) => {
-      if (res.data.success) {
-        props.history.push("/login");
-      } else {
-        alert("로그아웃에 실패하였습니다.");
-      }
-    });
+    axios
+      .get(`/api/auth/logout`)
+      .then((res) => {
+        if (res.data.success) {
+          props.history.push("/login");
+        } else {
+          alert("로그아웃에 실패하였습니다.");
+        }
+      })
+      .catch((err) => console.err(err));
   };
 
   return (
@@ -29,4 +33,4 @@ function LandingPage(props) {
   );
 }
 
-export default LandingPage;
+export default withRouter(LandingPage);
