@@ -11,24 +11,20 @@ import "./index.css";
 import "antd/dist/antd.css";
 
 import { applyMiddleware, createStore } from "redux";
+import { composeWithDevTools } from "redux-devtools-extension/developmentOnly";
 import { Provider } from "react-redux";
 import promiseMiddleware from "redux-promise";
 import ReduxThunk from "redux-thunk";
 import Reducer from "./_reducers";
 
-const createStoreWithMiddleWare = applyMiddleware(
-  promiseMiddleware,
-  ReduxThunk
-)(createStore);
+const middlewares = [promiseMiddleware, ReduxThunk];
+const store = createStore(
+  Reducer,
+  composeWithDevTools(applyMiddleware(...middlewares))
+);
 
 ReactDOM.render(
-  <Provider
-    store={createStoreWithMiddleWare(
-      Reducer,
-      window.__REDUX_DEVTOOLS_EXTENSION__ &&
-        window.__REDUX_DEVTOOLS_EXTENSION__()
-    )}
-  >
+  <Provider store={store}>
     <App />
   </Provider>,
   document.getElementById("root")
