@@ -1,0 +1,67 @@
+@import '~antd/dist/antd.css';
+
+.NAVBAR {
+  padding: 0 20px;
+  border-bottom: solid 1px #e8e8e8;
+  overflow: auto;
+  box-shadow: 0 0 30px #f3f1f1;
+  background-color:white;
+}
+
+.NAVBAR_LOGO {
+  width: 150px;
+  float: left;
+}
+
+.NAVBAR_LOGO a {
+  display: inline-block;
+  font-size: 20px;
+  padding: 19px 29px;
+}
+
+.NAVBAR_CONTAINER .ant-menu-item, .ant-menu-submenu-title {
+  width: 80px;
+  padding: 10px 5px;
+  text-align: center;
+}
+
+.NAVBAR_CONTAINER .ant-menu-horizontal {
+  border-bottom: none;
+}
+
+.NAVBAR_LEFT {
+  float: left;
+}
+
+.NAVBAR_RIGHT {
+  float: right;
+}
+
+.NAVBAR_MOBILE-BUTTON {
+  float: right;
+  height: 32px;
+  padding: 6px;
+  margin-top: 8px;
+  background: #3e91f7;
+  display: none !important;
+}
+
+@media (max-width: 767px) {
+  .NAVBAR_MOBILE-BUTTON {
+    display: inline-block !important;
+  }
+
+  .NAVBAR_LEFT,.NAVBAR_RIGHT {
+    display: none;
+  }
+
+  .NAVBAR_LOGO a {
+    margin-left: -20px;
+    padding: 10px 20px;
+  }
+
+  .NAVBAR_CONTAINER .ant-menu-item,
+  .NAVBAR_CONTAINER .ant-menu-submenu-title {
+    padding: 1px 20px;
+  }
+} 

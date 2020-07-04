@@ -1,0 +1,87 @@
+@import '~antd/dist/antd.css';
+
+.NAVBAR {
+  padding: 0 20px;
+  border-bottom: solid 1px #e8e8e8;
+  overflow: auto;
+  box-shadow: 0 0 30px #f3f1f1;
+  background-color: white;
+}
+
+.NAVBAR_LOGO {
+  width: 150px;
+  float: left;
+}
+
+.NAVBAR_LOGO a {
+  display: inline-block;
+  font-size: 20px;
+  padding: 19px 20px;
+}
+
+.NAVBAR_CONTAINER .ant-menu-item {
+  padding: 0px 5px;
+}
+
+.NAVBAR_CONTAINER .ant-menu-submenu-title {
+  padding: 10px 20px;
+}
+
+.NAVBAR_CONTAINER .ant-menu-item a,
+.NAVBAR_CONTAINER .ant-menu-submenu-title a {
+  padding: 10px 15px;
+}
+
+.NAVBAR_CONTAINER .ant-menu-horizontal {
+  border-bottom: none;
+}
+
+.NAVBAR_CONTAINER .NAVBAR_LEFT {
+  float: left;
+}
+
+.NAVBAR_CONTAINER .NAVBAR_RIGHT {
+  float: right;
+}
+
+.NAVBAR_MOBILE-BUTTON {
+  float: right;
+  height: 32px;
+  padding: 6px;
+  margin-top: 8px;
+  display: none !important; /* use of important to overwrite ant-btn */
+  background: #3e91f7;
+}
+
+.NAVBAR_DRAWER .ant-drawer-body {
+  padding: 0 !important;
+}
+
+/* align header of Drawer with header of page */
+.NAVBAR_DRAWER .ant-drawer-header {
+  padding: 14px 24px !important;
+}
+
+@media (max-width: 767px) {
+  .NAVBAR_MOBILE-BUTTON {
+    display: inline-block !important;
+  }
+
+  .NAVBAR_LEFT,
+  .NAVBAR_RIGHT {
+    display: none;
+  }
+
+  .NAVBAR_LOGO a {
+    margin-left: -20px;
+  }
+
+  .NAVBAR_CONTAINER .ant-menu-item,
+  .NAVBAR_CONTAINER .ant-menu-submenu-title {
+    padding: 1px 20px;
+  }
+
+  .NAVBAR_LOGO a {
+    padding: 10px 20px;
+  }
+}
