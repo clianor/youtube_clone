@@ -25,7 +25,17 @@ exports.loginController = (req, res) => {
         res
           .cookie("x_auth", user.token)
           .status(200)
-          .json({ success: true, userId: user._id });
+          .json({
+            success: true,
+            _id: user._id,
+            isAdmin: user.role === 0 ? false : true,
+            isAuth: true,
+            email: user.email,
+            name: user.name,
+            lastname: user.lastname,
+            role: user.role,
+            image: user.image,
+          });
       });
     });
   });
