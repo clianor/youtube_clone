@@ -92,7 +92,7 @@ function RegisterPage(props) {
           onChange={onConfirmPasswordHandler}
         />
         <br />
-        <button>Register</button>
+        <button>회원가입</button>
       </form>
     </div>
   );

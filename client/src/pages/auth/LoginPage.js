@@ -61,7 +61,7 @@ function LoginPage(props) {
           onChange={onPasswordHandler}
         />
         <br />
-        <button>Login</button>
+        <button>로그인</button>
       </form>
     </div>
   );
