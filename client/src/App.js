@@ -4,6 +4,7 @@ import CustomRoute from "./components/common/router";
 
 // base components
 import Navbar from "./components/base/Navbar/Navbar";
+import Footer from "./components/base/Footer/Footer";
 
 // pages
 import LandingPage from "./pages/LandingPage";
@@ -24,6 +25,7 @@ function App() {
           isAuth={false}
         />
       </Switch>
+      <Footer />
     </Router>
   );
 }
