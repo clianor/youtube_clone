@@ -12,27 +12,62 @@ class CustomRoute extends Route {
   constructor(props) {
     super(props);
 
-    this.initAuth();
+    this.state = {
+      isAuth: undefined,
+      isAdmin: undefined,
+    };
   }
 
-  async initAuth() {
-    await this.props.getAuth();
+  componentDidMount() {
+    this.props
+      .getAuth()
+      .then((response) => {
+        response.payload.errMsg
+          ? this.setState({
+              isAuth: false,
+              isAdmin: false,
+            })
+          : this.setState({
+              isAuth: response.payload.isAuth,
+              isAdmin: response.payload.isAdmin,
+            });
+      })
+      .catch((error) => {
+        this.setState({
+          isAuth: false,
+          isAdmin: false,
+        });
+        console.error(error);
+      });
   }
 
   render() {
-    const { isAuth, isAdmin, storeIsAuth, storeIsAdmin } = this.props;
-
+    const { isAuth, isAdmin } = this.props;
     if (isAuth === null) {
       // 모든 사람 허용
       return <this.props.component />;
-    } else if (isAuth && storeIsAuth && !(isAdmin && !storeIsAdmin)) {
-      // 로그인한 사람만 허용 && 관리자 권한 체크
-      return <this.props.component />;
-    } else if (!isAuth && !storeIsAuth) {
-      // 로그인 안한 사람만 허용
-      return <this.props.component />;
+    } else {
+      if (this.state.isAuth === undefined) {
+        return <div>Loading...</div>;
+      } else if (isAuth === false && this.state.isAuth === false) {
+        // 로그인 안한 사람만 허용
+        return <this.props.component />;
+      } else if (isAuth === true && this.state.isAuth === true) {
+        // 로그인 한 사람만 허용
+
+        if (isAdmin === true) {
+          // 관리자 메뉴일때
+          return this.state.isAdmin === true ? (
+            <this.props.component />
+          ) : (
+            <Redirect to="/" />
+          );
+        } else {
+          return <this.props.component />;
+        }
+      }
+      return <Redirect to="/" />;
     }
-    return <Redirect to="/" />;
   }
 }
 
@@ -42,7 +77,7 @@ CustomRoute.defaultProps = {
 };
 
 const mapStateToProps = (state) => {
-  return { storeIsAuth: state.user.isAuth, storeIsAdmin: state.user.isAdmin };
+  return {};
 };
 
 const mapDispatchToProps = (dispatch) => ({
