@@ -23,7 +23,7 @@ function RightMenu(props) {
 
   if (user && !user.isAuth) {
     return (
-      <Menu mode={props.mode}>
+      <Menu mode={props.mode} selectable={false}>
         <MenuItem key="signin">
           <Link to="/login">Signin</Link>
         </MenuItem>
@@ -34,7 +34,7 @@ function RightMenu(props) {
     );
   } else {
     return (
-      <Menu mode={props.mode}>
+      <Menu mode={props.mode} selectable={false}>
         <MenuItem key="upload">
           <Link to="/video/upload">Upload</Link>
         </MenuItem>

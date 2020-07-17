@@ -8,7 +8,7 @@ const MenuItem = Menu.Item;
 
 export default function LeftMenu(props) {
   return (
-    <Menu mode={props.mode} onSelect={() => {}}>
+    <Menu mode={props.mode} selectable={false}>
       <MenuItem key="home">
         <Link to="/">Home</Link>
       </MenuItem>
