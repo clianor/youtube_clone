@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import CustomRoute from "./components/common/route";
 
 // base components
@@ -10,6 +10,7 @@ import Footer from "./components/base/Footer/Footer";
 import LandingPage from "./pages/LandingPage";
 import LoginPage from "./pages/auth/LoginPage";
 import RegisterPage from "./pages/auth/RegisterPage";
+import NoMatchPage from "./pages/error/NoMatchPage";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           component={RegisterPage}
           isAuth={false}
         />
+        <Route component={NoMatchPage} />
       </Switch>
       <Footer />
     </Router>
