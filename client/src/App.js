@@ -10,6 +10,7 @@ import Footer from "./components/base/Footer/Footer";
 import LandingPage from "./pages/LandingPage";
 import LoginPage from "./pages/auth/LoginPage";
 import RegisterPage from "./pages/auth/RegisterPage";
+import VideoUploadPage from "./pages/video/VideoUploadPage";
 import NoMatchPage from "./pages/error/NoMatchPage";
 
 function App() {
@@ -24,6 +25,12 @@ function App() {
           path="/register"
           component={RegisterPage}
           isAuth={false}
+        />
+        <CustomRoute
+          exact
+          path="/video/upload"
+          component={VideoUploadPage}
+          isAuth={true}
         />
         <Route component={NoMatchPage} />
       </Switch>
