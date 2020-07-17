@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Dropzone from "react-dropzone";
 import { Typography, Form, Input, Button, Select } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
+import Axios from "axios";
 
 const { Title } = Typography;
 const { TextArea } = Input;
@@ -9,16 +10,16 @@ const { Item } = Form;
 const { Option } = Select;
 
 const PrivacyOption = [
-  { value: 0, label: "Privacy" },
-  { value: 1, label: "Public" },
+  { value: 0, label: "비공개" },
+  { value: 1, label: "공개" },
 ];
 
 const CategoryOption = [
-  { label: "Film & Animation" },
-  { label: "Autos & Vehicles" },
-  { label: "Music" },
-  { label: "Pets & Animals" },
-  { label: "Sports" },
+  { label: "영화" },
+  { label: "차량" },
+  { label: "음악" },
+  { label: "동물" },
+  { label: "운동" },
 ];
 
 function VideoUploadPage() {
@@ -28,9 +29,35 @@ function VideoUploadPage() {
   const [category, setCategory] = useState(CategoryOption[0].label);
 
   const onTitleChange = (event) => setTitle(event.currentTarget.value);
+
   const onDescription = (event) => setDescription(event.currentTarget.value);
+
   const onPrivacy = (value) => setPrivacy(value);
+
   const onCategory = (value) => setCategory(value);
+
+  const onDrop = (files) => {
+    let formData = new FormData();
+
+    /**
+     * x-www-form-urlencode와 multipart/form-data은 둘다 폼 형태이지만
+     * x-www-form-urlencode은 대용량 바이너리 테이터를 전송하기에 비능률적이기 때문에
+     * 대부분 첨부파일은 multipart/form-data를 사용하게 된다.
+     */
+    const config = {
+      header: { "contents-type": "multipart/form-data" },
+    };
+    formData.append("file", files[0]);
+
+    Axios.post("/api/video", formData, config)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        alert("비디오 업로드에 실패했습니다.");
+        console.log(error);
+      });
+  };
 
   return (
     <div className="CONTENTS">
@@ -48,26 +75,22 @@ function VideoUploadPage() {
             }}
           >
             {/* Drop Zone */}
-            <Dropzone
-              onDrop={(acceptedFiles) => console.log(acceptedFiles)}
-              multiple
-              maxSize
-            >
+            {/* 100메가까지 업로드 가능하도록 제한 */}
+            <Dropzone onDrop={onDrop} multiple={false} maxSize={838860800}>
               {({ getRootProps, getInputProps }) => (
                 <section
+                  {...getRootProps()}
                   style={{
-                    display: "flex",
                     width: "300px",
                     height: "240px",
                     border: "1px solid lightgray",
+                    display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
                   }}
                 >
-                  <div {...getRootProps()}>
-                    <input {...getInputProps()} />
-                    <PlusOutlined style={{ fontSize: "3rem" }} />
-                  </div>
+                  <input {...getInputProps()} />
+                  <PlusOutlined style={{ fontSize: "3rem" }} />
                 </section>
               )}
             </Dropzone>
@@ -87,7 +110,7 @@ function VideoUploadPage() {
           </div>
 
           <Item
-            label="Title"
+            label="제목"
             name="Title"
             style={{ display: "block", margin: "10px 0 0 0" }}
           >
@@ -95,7 +118,7 @@ function VideoUploadPage() {
           </Item>
 
           <Item
-            label="Description"
+            label="설명"
             name="Description"
             style={{ display: "block", margin: "10px 0 0 0" }}
           >
