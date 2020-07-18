@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import { Helmet } from "react-helmet";
 import Dropzone from "react-dropzone";
-import { Typography, Form, Input, Button, Select } from "antd";
+import { Layout, Typography, Form, Input, Button, Select } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import Axios from "axios";
 
+const { Content } = Layout;
 const { Title } = Typography;
 const { TextArea } = Input;
 const { Item } = Form;
@@ -60,7 +62,12 @@ function VideoUploadPage() {
   };
 
   return (
-    <div className="CONTENTS">
+    <Content>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>영상 업로드</title>
+      </Helmet>
+
       <div style={{ maxWidth: "700px", margin: "2rem auto" }}>
         <div style={{ textAlign: "center", marginBottom: "2rem" }}>
           <Title level={2}>Upload Video</Title>
@@ -159,7 +166,7 @@ function VideoUploadPage() {
           </Button>
         </Form>
       </div>
-    </div>
+    </Content>
   );
 }
 

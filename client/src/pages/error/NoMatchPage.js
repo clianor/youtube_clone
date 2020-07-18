@@ -1,9 +1,16 @@
 import React from "react";
-import { Result, Button } from "antd";
+import { Helmet } from "react-helmet";
+import { Layout, Result, Button } from "antd";
+
+const { Content } = Layout;
 
 function NoMatchPage() {
   return (
-    <div className="CONTENTS">
+    <Content>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>페이지를 찾을 수 없습니다.</title>
+      </Helmet>
       <Result
         status="404"
         title="404"
@@ -14,7 +21,7 @@ function NoMatchPage() {
           </Button>
         }
       />
-    </div>
+    </Content>
   );
 }
 

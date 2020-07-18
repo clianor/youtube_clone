@@ -1,12 +1,14 @@
 import React, { useState } from "react";
+import { Helmet } from "react-helmet";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../_actions/auth/user";
 import { withRouter } from "react-router-dom";
-import { Form, Input, Button, Checkbox, Typography } from "antd";
+import { Layout, Form, Input, Button, Checkbox, Typography } from "antd";
 import { UserDeleteOutlined, LockOutlined } from "@ant-design/icons";
 import { Formik } from "formik";
 import * as Yup from "yup";
 
+const { Content } = Layout;
 const { Title } = Typography;
 const FormItem = Form.Item;
 
@@ -77,7 +79,12 @@ function LoginPage(props) {
         handleSubmit,
         isSubmitting,
       }) => (
-        <div className="CONTENTS">
+        <Content>
+          <Helmet>
+            <meta charSet="utf-8" />
+            <title>로그인</title>
+          </Helmet>
+
           <Title level={2}>로그인</Title>
           <form onSubmit={handleSubmit} style={{ width: "350px" }}>
             <FormItem required>
@@ -167,7 +174,7 @@ function LoginPage(props) {
               Or <a href="/register">register now!</a>
             </FormItem>
           </form>
-        </div>
+        </Content>
       )}
     </Formik>
   );

@@ -7,8 +7,8 @@ import ReactDOM from "react-dom";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 
-import "./index.css";
 import "antd/dist/antd.css";
+import "./index.css";
 
 import { applyMiddleware, createStore } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension/developmentOnly";
