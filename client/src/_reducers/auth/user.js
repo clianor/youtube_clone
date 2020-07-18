@@ -6,6 +6,7 @@ import {
 } from "../../_actions/auth/types";
 
 const initState = {
+  checkAuth: undefined,
   isAuth: false,
   isAdmin: false,
   loginSuccess: false,
@@ -50,6 +51,7 @@ export default function (state = initState, action) {
         isAdmin: action.payload.isAdmin || false,
         email: action.payload.email || "",
         name: action.payload.name || "",
+        checkAuth: true,
       };
     default:
       return state;

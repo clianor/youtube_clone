@@ -1,8 +1,9 @@
 import React, { useState } from "react";
+import { Helmet } from "react-helmet";
 import { useDispatch } from "react-redux";
 import { registerUser } from "../../_actions/auth/user";
 import { withRouter } from "react-router-dom";
-import { Form, Typography, Input, Button } from "antd";
+import { Layout, Form, Typography, Input, Button } from "antd";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import {
@@ -11,6 +12,7 @@ import {
   LockOutlined,
 } from "@ant-design/icons";
 
+const { Content } = Layout;
 const { Title } = Typography;
 const FormItem = Form.Item;
 
@@ -77,7 +79,11 @@ function RegisterPage(props) {
         handleSubmit,
         isSubmitting,
       }) => (
-        <div className="CONTENTS">
+        <Content>
+          <Helmet>
+            <meta charSet="utf-8" />
+            <title>회원가입</title>
+          </Helmet>
           <Title level={2}>회원가입</Title>
           <form onSubmit={handleSubmit} style={{ width: "350px" }}>
             <FormItem required>
@@ -190,7 +196,7 @@ function RegisterPage(props) {
               </Button>
             </FormItem>
           </form>
-        </div>
+        </Content>
       )}
     </Formik>
   );
