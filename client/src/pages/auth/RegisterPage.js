@@ -65,7 +65,6 @@ function RegisterPage(props) {
               }, 3000);
             });
 
-          console.log(dataToSubmit);
           setSubmitting(false);
         }, 1000);
       }}
