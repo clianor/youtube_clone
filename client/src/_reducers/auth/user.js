@@ -36,6 +36,7 @@ export default function (state = initState, action) {
     case AUTH_LOGOUT:
       return {
         ...state,
+        checkAuth: undefined,
         loginSuccess: false,
         isAuth: false,
         isAdmin: false,
@@ -46,12 +47,12 @@ export default function (state = initState, action) {
     case AUTH_INFO:
       return {
         ...state,
+        checkAuth: true,
         userId: action.payload._id || "",
         isAuth: action.payload.isAuth || false,
         isAdmin: action.payload.isAdmin || false,
         email: action.payload.email || "",
         name: action.payload.name || "",
-        checkAuth: true,
       };
     default:
       return state;

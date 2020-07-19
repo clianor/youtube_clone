@@ -20,14 +20,13 @@ function PageHeader({ history, collapsed, onCollapse }) {
   const logoutHandler = () => {
     dispatch(logoutUser())
       .then((response) => {
-        console.log(response);
         if (response.payload.success === true) {
           history.push("/login");
         }
       })
       .catch((error) => {
         alert("로그아웃에 실패하였습니다.");
-        console.log(error);
+        console.error(error);
       });
   };
 
@@ -72,8 +71,8 @@ function PageHeader({ history, collapsed, onCollapse }) {
                 </>
               ) : (
                 <>
-                  <Link to="login">로그인</Link>
-                  <Link to="register">회원가입</Link>
+                  <Link to="/login">로그인</Link>
+                  <Link to="/register">회원가입</Link>
                 </>
               )
             ) : (

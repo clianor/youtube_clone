@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import CustomRoute from "./components/common/route";
 import { Layout } from "antd";
-import NavBar from "./components/base/Navbar";
+import { checkAuth } from "./hoc/auth";
 
-// // base components
+// base components
+import NavBar from "./components/base/Navbar";
 import PageHeader from "./components/base/PageHeader";
 import PageFooter from "./components/base/PageFooter";
 
-// // pages
+// pages
 import LandingPage from "./pages/LandingPage";
 import LoginPage from "./pages/auth/LoginPage";
 import RegisterPage from "./pages/auth/RegisterPage";
@@ -37,29 +37,21 @@ function App() {
             onCollapse={() => setCollapsed(!collapsed)}
           />
           <Switch>
-            <CustomRoute
-              exact
-              path="/"
-              component={LandingPage}
-              isAccess={null}
-            />
-            <CustomRoute
+            <Route exact path="/" component={checkAuth(LandingPage, null)} />
+            <Route
               exact
               path="/login"
-              component={LoginPage}
-              isAuth={false}
+              component={checkAuth(LoginPage, false)}
             />
-            <CustomRoute
+            <Route
               exact
               path="/register"
-              component={RegisterPage}
-              isAuth={false}
+              component={checkAuth(RegisterPage, false)}
             />
-            <CustomRoute
+            <Route
               exact
               path="/video/upload"
-              component={VideoUploadPage}
-              isAuth={true}
+              component={checkAuth(VideoUploadPage, true)}
             />
             <Route component={NoMatchPage} />
           </Switch>
