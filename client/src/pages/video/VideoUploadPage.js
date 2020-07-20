@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Helmet } from "react-helmet";
 import Dropzone from "react-dropzone";
-import { Layout, Typography, Form, Input, Button, Select } from "antd";
+import { Layout, Space, Typography, Form, Input, Button, Select } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import Axios from "axios";
 
@@ -30,6 +30,10 @@ function VideoUploadPage() {
   const [privacy, setPrivacy] = useState(PrivacyOption[0].value);
   const [category, setCategory] = useState(CategoryOption[0].label);
 
+  const [filePath, setFilePath] = useState("");
+  const [duration, setDuration] = useState("");
+  const [thumbnail, setThumbnail] = useState("");
+
   const onTitleChange = (event) => setTitle(event.currentTarget.value);
 
   const onDescription = (event) => setDescription(event.currentTarget.value);
@@ -52,12 +56,29 @@ function VideoUploadPage() {
     formData.append("file", files[0]);
 
     Axios.post("/api/video", formData, config)
-      .then((response) => {
-        console.log(response);
+      .then((res) => {
+        let variable = {
+          filePath: res.data.filePath,
+          fileName: res.data.fileName,
+        };
+
+        setFilePath(res.data.filePath);
+
+        Axios.post("/api/video/thumbnail", variable)
+          .then((res) => {
+            if (res.data.success) {
+              setDuration(res.data.fileDuration);
+              setThumbnail(res.data.filePath);
+            }
+          })
+          .catch((error) => {
+            alert("썸네일 생성에 실패하였습니다.");
+            console.error(error);
+          });
       })
       .catch((error) => {
         alert("비디오 업로드에 실패했습니다.");
-        console.log(error);
+        console.error(error);
       });
   };
 
@@ -74,7 +95,7 @@ function VideoUploadPage() {
         </div>
 
         <Form>
-          <div
+          <Space
             style={{
               display: "flex",
               justifyContent: "space-between",
@@ -88,7 +109,7 @@ function VideoUploadPage() {
                 <section
                   {...getRootProps()}
                   style={{
-                    width: "300px",
+                    width: "320px",
                     height: "240px",
                     border: "1px solid lightgray",
                     display: "flex",
@@ -106,15 +127,24 @@ function VideoUploadPage() {
             <div
               style={{
                 display: "flex",
-                width: "300px",
+                width: "320px",
                 height: "240px",
                 alignItems: "center",
                 justifyContent: "center",
               }}
             >
-              <img src alt />
+              {thumbnail && (
+                <img
+                  src={
+                    process.env.NODE_ENV === "production"
+                      ? "/" + thumbnail
+                      : `http://localhost:5000/${thumbnail}`
+                  }
+                  alt="thumbnail"
+                />
+              )}
             </div>
-          </div>
+          </Space>
 
           <Item
             label="제목"
@@ -143,7 +173,9 @@ function VideoUploadPage() {
             onChange={onPrivacy}
           >
             {PrivacyOption.map((item) => (
-              <Option value={item.value}>{item.label}</Option>
+              <Option key={item.value} value={item.value}>
+                {item.label}
+              </Option>
             ))}
           </Select>
 
@@ -153,7 +185,9 @@ function VideoUploadPage() {
             onChange={onCategory}
           >
             {CategoryOption.map((item) => (
-              <Option value={item.label}>{item.label}</Option>
+              <Option key={item.label} value={item.label}>
+                {item.label}
+              </Option>
             ))}
           </Select>
 
