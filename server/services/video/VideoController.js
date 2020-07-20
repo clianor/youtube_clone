@@ -1,5 +1,7 @@
 // const { Video } = require("../../models/Video");
 const multer = require("multer");
+const ffmpeg = require("fluent-ffmpeg");
+const path = require("path");
 
 // STORAGE MULTER CONFIG
 const storage = multer.diskStorage({
@@ -32,4 +34,42 @@ exports.uploadVideoController = (req, res) => {
       fileName: res.req.file.filename,
     });
   });
+};
+
+exports.getVideoThumbnailController = (req, res) => {
+  let filePath = "";
+  let fileDuration = "";
+
+  // 비디오 정보 가져오기
+  ffmpeg.ffprobe(req.body.filePath, function (error, metadata) {
+    fileDuration = metadata.format.duration;
+
+    if (error) {
+      return res.status(400).json({ success: false, error });
+    }
+  });
+
+  // 썸네일 생성
+  ffmpeg(req.body.filePath)
+    .on("filenames", function (filenames) {
+      filePath = "uploads/thumbnails/" + filenames[0];
+    })
+    .on("end", function () {
+      console.log("Screenshots taken");
+      return res.json({
+        success: true,
+        filePath: filePath,
+        fileDuration: fileDuration,
+      });
+    })
+    .on("error", function (error) {
+      console.error(error);
+      return res.status(400).json({ success: false, error });
+    })
+    .screenshots({
+      count: 3,
+      folder: "uploads/thumbnails",
+      size: "320x240",
+      filename: "thumbnail-%b.png",
+    });
 };

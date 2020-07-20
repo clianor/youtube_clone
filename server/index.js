@@ -5,6 +5,7 @@ const config = require("./config/key");
 const mongoose = require("mongoose");
 
 const path = require("path");
+global.appRoot = path.resolve(__dirname, "../");
 
 const app = express();
 let port = 5000;
@@ -29,6 +30,8 @@ const routers = require("./services");
 
 applyMiddleware(middleware, app);
 app.use("/api", routers);
+
+app.use("/uploads", express.static("uploads"));
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
