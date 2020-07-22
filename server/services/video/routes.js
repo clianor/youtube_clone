@@ -1,18 +1,21 @@
 const { auth } = require("../../middleware/auth");
-const {
-  uploadVideoController,
-  getVideoThumbnailController,
-} = require("./VideoController");
+const { createVideo, getVideo, getVideos } = require("./VideoController");
+
+const videoFileRoutes = require("./file/routes");
 
 const router = require("express").Router();
+router.use("/file", videoFileRoutes);
 
-router.post("/", (req, res) => {
-  uploadVideoController(req, res);
+router.post("/", auth, (req, res) => {
+  createVideo(req, res);
 });
 
-router.post("/thumbnail", (req, res) => {
-  // 썸네일 생성하고 비디오 러닝타임 가져오기
-  getVideoThumbnailController(req, res);
+// router.get("/", (req, res) => {
+//   getVideo(req, res);
+// });
+
+router.get("/", (req, res) => {
+  getVideos(req, res);
 });
 
 module.exports = router;

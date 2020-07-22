@@ -1,9 +1,20 @@
 import React, { useState } from "react";
 import { Helmet } from "react-helmet";
 import Dropzone from "react-dropzone";
-import { Layout, Space, Typography, Form, Input, Button, Select } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
+import { useSelector } from "react-redux";
 import Axios from "axios";
+import {
+  Layout,
+  Space,
+  Typography,
+  Form,
+  Input,
+  Button,
+  Select,
+  message,
+} from "antd";
+import { PlusOutlined } from "@ant-design/icons";
+import { withRouter } from "react-router-dom";
 
 const { Content } = Layout;
 const { Title } = Typography;
@@ -24,7 +35,8 @@ const CategoryOption = [
   { label: "운동" },
 ];
 
-function VideoUploadPage() {
+function VideoUploadPage({ history }) {
+  const user = useSelector((state) => state.user);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [privacy, setPrivacy] = useState(PrivacyOption[0].value);
@@ -42,6 +54,33 @@ function VideoUploadPage() {
 
   const onCategory = (value) => setCategory(value);
 
+  const onSubmit = (event) => {
+    event.preventDefault();
+
+    const variables = {
+      writer: user.userId,
+      title: title,
+      description: description,
+      privacy: privacy,
+      filePath: filePath,
+      catogory: category,
+      duration: duration,
+      thumbnail: thumbnail,
+    };
+
+    Axios.post("/api/video", variables)
+      .then((res) => {
+        if (res.data.success) {
+          message.success("성공적으로 업로드를 완료하였습니다.");
+
+          setTimeout(() => {
+            history.push("/");
+          }, 1000);
+        }
+      })
+      .catch((error) => alert("비디오 업로드에 실패하였습니다."));
+  };
+
   const onDrop = (files) => {
     let formData = new FormData();
 
@@ -55,7 +94,7 @@ function VideoUploadPage() {
     };
     formData.append("file", files[0]);
 
-    Axios.post("/api/video", formData, config)
+    Axios.post("/api/video/file", formData, config)
       .then((res) => {
         let variable = {
           filePath: res.data.filePath,
@@ -64,7 +103,7 @@ function VideoUploadPage() {
 
         setFilePath(res.data.filePath);
 
-        Axios.post("/api/video/thumbnail", variable)
+        Axios.post("/api/video/file/thumbnail", variable)
           .then((res) => {
             if (res.data.success) {
               setDuration(res.data.fileDuration);
@@ -195,6 +234,7 @@ function VideoUploadPage() {
             type="primary"
             size={"large"}
             style={{ margin: "10px 0 0 0" }}
+            onClick={onSubmit}
           >
             Submit
           </Button>
@@ -204,4 +244,4 @@ function VideoUploadPage() {
   );
 }
 
-export default VideoUploadPage;
+export default withRouter(VideoUploadPage);
