@@ -1,4 +1,5 @@
 import React from "react";
+import { withRouter } from "react-router-dom";
 import { Col, Card, Avatar } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 
@@ -6,7 +7,7 @@ import moment from "moment";
 
 const { Meta } = Card;
 
-function VideCard({ video, minutes, seconds }) {
+function VideCard({ history, video, minutes, seconds }) {
   return (
     <Col xxl={4} xl={6} lg={6} md={8} xs={24} key={video.filePath}>
       <Card
@@ -44,12 +45,12 @@ function VideCard({ video, minutes, seconds }) {
               }}
             >
               <span>
-                {minutes}분 {seconds}초
+                {minutes ? minutes + "분" : ""} {seconds ? seconds + "초" : ""}
               </span>
             </div>
           </div>
         }
-        onClick={() => console.log("card click")}
+        onClick={() => history.push(`/video/${video._id}`)}
       >
         <Meta
           avatar={<Avatar icon={<UserOutlined />} />}
@@ -72,4 +73,4 @@ function VideCard({ video, minutes, seconds }) {
   );
 }
 
-export default VideCard;
+export default withRouter(VideCard);

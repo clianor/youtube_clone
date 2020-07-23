@@ -10,9 +10,9 @@ router.post("/", auth, (req, res) => {
   createVideo(req, res);
 });
 
-// router.get("/", (req, res) => {
-//   getVideo(req, res);
-// });
+router.post("/:videoId", (req, res) => {
+  getVideo(req, res);
+});
 
 router.get("/", (req, res) => {
   getVideos(req, res);

@@ -45,6 +45,7 @@ function VideoUploadPage({ history }) {
   const [filePath, setFilePath] = useState("");
   const [duration, setDuration] = useState("");
   const [thumbnail, setThumbnail] = useState("");
+  const [isVertical, setIsVertical] = useState(false);
 
   const onTitleChange = (event) => setTitle(event.currentTarget.value);
 
@@ -66,6 +67,7 @@ function VideoUploadPage({ history }) {
       catogory: category,
       duration: duration,
       thumbnail: thumbnail,
+      isVertical: isVertical,
     };
 
     Axios.post("/api/video", variables)
@@ -108,6 +110,7 @@ function VideoUploadPage({ history }) {
             if (res.data.success) {
               setDuration(res.data.fileDuration);
               setThumbnail(res.data.filePath);
+              setIsVertical(res.data.isVertical);
             }
           })
           .catch((error) => {

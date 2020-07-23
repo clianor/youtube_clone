@@ -31,6 +31,9 @@ const videoSchema = mongoose.Schema(
     thumbnail: {
       type: String,
     },
+    isVertical: {
+      type: Boolean,
+    },
   },
   { timestamps: true }
 );

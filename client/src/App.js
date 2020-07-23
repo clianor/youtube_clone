@@ -13,6 +13,7 @@ import LandingPage from "./pages/LandingPage";
 import LoginPage from "./pages/auth/LoginPage";
 import RegisterPage from "./pages/auth/RegisterPage";
 import VideoUploadPage from "./pages/video/VideoUploadPage";
+import VideoDetailPage from "./pages/video/VideoDetailPage";
 import NoMatchPage from "./pages/error/NoMatchPage";
 
 function App() {
@@ -52,6 +53,10 @@ function App() {
               exact
               path="/video/upload"
               component={checkAuth(VideoUploadPage, true)}
+            />
+            <Route
+              path="/video/:videoId"
+              component={checkAuth(VideoDetailPage, null)}
             />
             <Route component={NoMatchPage} />
           </Switch>

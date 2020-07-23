@@ -14,7 +14,7 @@ exports.createVideo = (req, res) => {
 };
 
 exports.getVideo = (req, res) => {
-  Video.findOne({ _id: req.body.videoId })
+  Video.findOne({ _id: req.params.videoId })
     .populate("writer")
     .exec((err, video) => {
       if (err) return res.status(400).send(err);
@@ -23,7 +23,8 @@ exports.getVideo = (req, res) => {
 };
 
 exports.getVideos = (req, res) => {
-  Video.find()
+  Video.find({ privacy: 1 })
+    .sort("-createdAt")
     .populate("writer")
     .exec((err, videos) => {
       if (err) return res.status(400).send(err);
