@@ -30,6 +30,7 @@ exports.getVideo = (req, res) => {
 exports.getVideos = (req, res) => {
   Video.find({ privacy: 1 })
     .sort("-createdAt")
+    .limit(parseInt(req.query.limit))
     .populate("writer")
     .exec((err, videos) => {
       if (err) return res.status(400).send(err);

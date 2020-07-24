@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import { Layout, Row, Col, List } from "antd";
 import Axios from "axios";
+import SideVideo from "./VideoDetailSection/SideVideo";
 
 const { Content } = Layout;
 const { Item } = List;
@@ -26,7 +27,7 @@ function VideoDetailPage(props) {
 
   return (
     <Content>
-      <Row style={{ width: "100%", padding: "3rem 4rem" }}>
+      <Row style={{ width: "100%", padding: "3rem 3rem" }}>
         <Col lg={18} xs={24}>
           <div
             style={{
@@ -78,7 +79,7 @@ function VideoDetailPage(props) {
         </Col>
 
         <Col lg={6} xs={24}>
-          Side Videos
+          <SideVideo />
         </Col>
       </Row>
     </Content>
