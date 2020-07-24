@@ -18,7 +18,12 @@ exports.getVideo = (req, res) => {
     .populate("writer")
     .exec((err, video) => {
       if (err) return res.status(400).send(err);
-      res.status(200).json({ success: true, video });
+      video.views++;
+      video.save((error, video) => {
+        if (error) return res.status(400).json({ success: false, error });
+
+        res.status(200).json({ success: true, video });
+      });
     });
 };
 
