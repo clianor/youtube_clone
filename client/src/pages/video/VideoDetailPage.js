@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
-import { Layout, Row, Col, List } from "antd";
+import { Layout, Typography, Row, Col, List } from "antd";
 import Axios from "axios";
 import SideVideo from "./VideoDetailSection/SideVideo";
 
 const { Content } = Layout;
 const { Item } = List;
 const { Meta } = Item;
+const { Title } = Typography;
 
 function VideoDetailPage(props) {
   const videoId = props.match.params.videoId;
@@ -69,6 +70,12 @@ function VideoDetailPage(props) {
               )}
             </div>
           </div>
+
+          <Title level={1} style={{ marginTop: "2rem" }}>
+            {Video.title}
+          </Title>
+
+          <hr />
 
           <Item>
             테스트 데이터입니다
