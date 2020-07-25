@@ -22,7 +22,7 @@ exports.getVideo = (req, res) => {
       video.save((error, video) => {
         if (error) return res.status(400).json({ success: false, error });
 
-        res.status(200).json({ success: true, video });
+        return res.status(200).json({ success: true, video });
       });
     });
 };

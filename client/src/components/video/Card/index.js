@@ -12,7 +12,7 @@ function VideCard({ history, video, minutes, seconds }) {
     <Col xxl={4} xl={6} lg={6} md={8} xs={24} key={video.filePath}>
       <Card
         hoverable
-        style={{ width: "100%" }}
+        style={{ width: "100%", margin: "0.5rem 0" }}
         cover={
           <div style={{ position: "relative", width: "100%" }}>
             <img

@@ -7,7 +7,6 @@ import {
   DislikeOutlined,
   DislikeFilled,
 } from "@ant-design/icons";
-import { set } from "mongoose";
 
 function LikeDislikes({ video, videoId, userId, commentId }) {
   const instance = Axios.create();
@@ -15,66 +14,77 @@ function LikeDislikes({ video, videoId, userId, commentId }) {
 
   const [Likes, setLikes] = useState(0);
   const [Dislikes, setDislikes] = useState(0);
-  const [LikeAction, setLikeAction] = useState(null);
-  const [DislikeAction, setDislikeAction] = useState(null);
+  const [LikeAction, setLikeAction] = useState(false);
+  const [DislikeAction, setDislikeAction] = useState(false);
 
   // 비디오인지 댓글인지에 따라 분기
   const variable = video ? { videoId, userId } : { commentId, userId };
 
+  const handleVideoLikesAction = () => {
+    instance
+      .get(`/api/likes/${videoId}`, { params: variable })
+      .then((res) => {
+        if (res.data.success) {
+          setLikes(res.data.Likes);
+          setDislikes(res.data.DisLikes);
+
+          if (res.data.isLike) {
+            setLikeAction(true);
+            setDislikeAction(false);
+          } else if (res.data.isLike === false) {
+            setLikeAction(false);
+            setDislikeAction(true);
+          } else {
+            setLikeAction(false);
+            setDislikeAction(false);
+          }
+        } else {
+          setLikeAction(false);
+          setDislikeAction(false);
+        }
+      })
+      .catch((error) => {
+        alert("영상에 대한 좋아요 여부를 가져오지 못했습니다.");
+        console.error(error);
+      });
+  };
+
+  const setVideoLikes = (isLike) => {
+    instance
+      .post(`/api/likes/${videoId}`, { ...variable, isLike })
+      .then((res) => {
+        if (res.data.success) {
+          handleVideoLikesAction();
+        }
+      })
+      .catch((error) => {
+        if (error.request.status === 401) {
+          alert("자신의 영상에는 좋아요를 누를 수 없습니다.");
+        } else {
+          console.error(error);
+        }
+      });
+  };
+
   useEffect(() => {
     if (video) {
-      instance
-        .get(`/api/likes/${videoId}`, { params: variable })
-        .then((res) => {
-          if (res.data.success) {
-            if (res.data.isLike) {
-              setLikeAction(true);
-              setDislikeAction(false);
-            } else {
-              setLikeAction(false);
-              setDislikeAction(true);
-            }
-          }
-        })
-        .catch((error) => {
-          alert("영상에 대한 좋아요 여부를 가져오지 못했습니다.");
-          console.error(error);
-        });
+      handleVideoLikesAction();
     } else {
       console.log("댓글 좋아요 기능 구현 중");
     }
-  }, []);
+  }, [video]);
 
-  const onLike = (event) => {
+  const onClick = (event) => {
     if (video) {
-      instance
-        .post(`/api/likes/${videoId}`, {
-          params: { ...variable, isLike: true },
-        })
-        .then((res) => {
-          if (res.data.success) {
-            if (res.data.isLike) {
-              setLikeAction(true);
-              setDislikeAction(false);
-            } else {
-              setLikeAction(false);
-              setDislikeAction(true);
-            }
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    } else {
-      console.log("comment like clicked");
-    }
-  };
+      // video
+      const isLike =
+        event.currentTarget.getAttribute("aria-label") === "like"
+          ? true
+          : false;
 
-  const onDisLike = (event) => {
-    if (video) {
-      console.log("video dislike clicked");
+      setVideoLikes(isLike);
     } else {
-      console.log("comment dislike clicked");
+      // comment
     }
   };
 
@@ -82,10 +92,10 @@ function LikeDislikes({ video, videoId, userId, commentId }) {
     <>
       <span>
         <Tooltip title="Like">
-          {LikeAction === "liked" ? (
-            <LikeFilled onClick={onLike} />
+          {LikeAction === true ? (
+            <LikeFilled onClick={onClick} />
           ) : (
-            <LikeOutlined onClick={onLike} />
+            <LikeOutlined onClick={onClick} />
           )}
         </Tooltip>
         <span style={{ paddingLeft: "8px", cursor: "auto" }}>{Likes}</span>
@@ -93,10 +103,10 @@ function LikeDislikes({ video, videoId, userId, commentId }) {
       &nbsp;&nbsp;
       <span>
         <Tooltip title="Dislike">
-          {DislikeAction === "liked" ? (
-            <DislikeFilled onClick={onDisLike} />
+          {DislikeAction === true ? (
+            <DislikeFilled onClick={onClick} />
           ) : (
-            <DislikeOutlined onClick={onDisLike} />
+            <DislikeOutlined onClick={onClick} />
           )}
         </Tooltip>
         <span style={{ paddingLeft: "8px", cursor: "auto" }}>{Dislikes}</span>
