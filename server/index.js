@@ -24,7 +24,7 @@ mongoose
     useFindAndModify: false,
   })
   .then(() => console.log("MongoDB Connected..."))
-  .catch((err) => console.log(err));
+  .catch((error) => console.log(error));
 
 const routers = require("./services");
 

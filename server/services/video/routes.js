@@ -7,6 +7,8 @@ const router = require("express").Router();
 router.use("/file", videoFileRoutes);
 
 router.post("/", auth, (req, res) => {
+  if (!req.user) return res.json({ success: false, errMsg: req.error });
+
   createVideo(req, res);
 });
 

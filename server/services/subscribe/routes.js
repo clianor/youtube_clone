@@ -16,6 +16,8 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", auth, (req, res) => {
+  if (!req.user) return res.json({ success: false, errMsg: req.error });
+
   setSubscribe(req, res);
 });
 

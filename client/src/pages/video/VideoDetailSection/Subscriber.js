@@ -36,7 +36,7 @@ function Subscriber(props) {
 
   const handleGetSubscribeNumber = async () => {
     instance
-      .get(`/api/subscribe/${userTo}`, { timeout: 3000 })
+      .get(`/api/subscribe/${userTo}`)
       .then((res) => {
         if (res.data.success) {
           setSubscribeNumber(res.data.subscribeNumber);
@@ -79,8 +79,6 @@ function Subscriber(props) {
         }
       })
       .catch((error) => {
-        console.log(error);
-
         alert("구독 처리를 실패하였습니다.");
         console.error(error);
       });
