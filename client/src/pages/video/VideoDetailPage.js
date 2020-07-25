@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { withRouter } from "react-router-dom";
-import { Layout, Typography, Row, Col, List } from "antd";
+import { useSelector } from "react-redux";
+import { withRouter, Link } from "react-router-dom";
+import { Layout, Typography, Row, Col, List, Avatar } from "antd";
 import Axios from "axios";
+
 import SideVideo from "./VideoDetailSection/SideVideo";
+import LikeDislikes from "./VideoDetailSection/LikeDislikes";
+import Subscriber from "./VideoDetailSection/Subscriber";
 
 const { Content } = Layout;
 const { Item } = List;
@@ -12,6 +16,8 @@ const { Title } = Typography;
 function VideoDetailPage(props) {
   const videoId = props.match.params.videoId;
   const [Video, setVideo] = useState([]);
+
+  const { userId } = useSelector((state) => state.user);
 
   useEffect(() => {
     Axios.post(`/api/video/${videoId}`)
@@ -48,7 +54,7 @@ function VideoDetailPage(props) {
                 backgroundColor: "black",
               }}
             >
-              {Video && (
+              {Video.length === undefined && (
                 <video
                   controls
                   src={
@@ -77,10 +83,20 @@ function VideoDetailPage(props) {
 
           <hr />
 
-          <Item>
-            테스트 데이터입니다
-            <Meta />
-          </Item>
+          {Video.length === undefined && (
+            <Item
+              actions={[
+                <LikeDislikes video videoId={videoId} userId={userId} />,
+                <Subscriber userTo={Video.writer._id} userFrom={userId} />,
+              ]}
+            >
+              <Meta
+                avatar={<Avatar src={Video.writer && Video.writer.image} />}
+                title={<Link to={`/video/${Video._id}`}>{Video.title}</Link>}
+                description={Video.description}
+              />
+            </Item>
+          )}
 
           {/** Comments */}
         </Col>

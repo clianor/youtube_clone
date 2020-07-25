@@ -67,7 +67,7 @@ function LoginPage(props) {
             });
 
           setSubmitting(false);
-        }, 1000);
+        }, 3000);
       }}
     >
       {({

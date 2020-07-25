@@ -20,8 +20,8 @@ export function checkAuth(SpecificComponent, isAuth = null, isAdmin = false) {
     const checkAuth = user.checkAuth;
 
     useEffect(() => {
-      dispatch(getAuth()).catch((err) => {
-        console.error(err);
+      dispatch(getAuth()).catch((error) => {
+        console.error(error);
       });
     }, [dispatch]);
 

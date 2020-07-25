@@ -66,7 +66,7 @@ function RegisterPage(props) {
             });
 
           setSubmitting(false);
-        }, 1000);
+        }, 3000);
       }}
     >
       {({

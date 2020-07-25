@@ -77,7 +77,7 @@ function VideoUploadPage({ history }) {
 
           setTimeout(() => {
             history.push("/");
-          }, 1000);
+          }, 3000);
         }
       })
       .catch((error) => alert("비디오 업로드에 실패하였습니다."));

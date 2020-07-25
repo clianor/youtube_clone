@@ -10,7 +10,7 @@ function SideVideo() {
       params: {
         limit: 3,
       },
-      timeout: 1000, // 1초 이내에 응답이 오지 않으면 에러로 간주
+      timeout: 3000,
     }).then((res) => {
       if (res.data.success) {
         setSideVideos(res.data.videos);

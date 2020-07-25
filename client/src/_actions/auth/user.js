@@ -2,7 +2,7 @@ import axios from "axios";
 import { AUTH_LOGIN, AUTH_REGISTER, AUTH_INFO, AUTH_LOGOUT } from "./types";
 
 const instance = axios.create();
-instance.defaults.timeout = 1000;
+instance.defaults.timeout = 3000;
 
 export function loginUser(dataToSubmit) {
   const req = instance
