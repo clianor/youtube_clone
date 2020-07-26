@@ -11,7 +11,11 @@ function SideVideoItem({ video }) {
         <Link to={`/video/${video._id}`} style={{ color: "gray" }}>
           <img
             style={{ width: "100%" }}
-            src={`http://localhost:5000/${video.thumbnail}`}
+            src={
+              process.env.NODE_ENV === "production"
+                ? `/${video.thumbnail}`
+                : `http://localhost:5000/${video.thumbnail}`
+            }
             alt="thumbnail"
           />
         </Link>
